@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div class="logo">AI</div>
+      <div>
+        <h1>AI Chatbot</h1>
+        <p>Powered by AWS Lambda &amp; OpenAI</p>
+      </div>
+      <button id="new-session" class="ghost" type="button">New session</button>
+    </header>
+
+    <section class="chat">
+      <div id="messages" class="messages">
+        <div class="empty">Ask me anything to start the conversation.</div>
+      </div>
+      <form id="chat-form" class="composer">
+        <input id="prompt" type="text" placeholder="Ask me anything..." autocomplete="off" required>
+        <button id="send" type="submit">Send</button>
+      </form>
+    </section>
+
+    <section class="analytics">
+      <h2>Response Time Analytics</h2>
+      <div class="stats">
+        <div class="stat">
+          <span>Avg. Total Request</span>
+          <strong id="avg-total">– ms</strong>
+        </div>
+        <div class="stat">
+          <span>Avg. OpenAI API</span>
+          <strong id="avg-openai">– ms</strong>
+        </div>
+      </div>
+      <div class="chart-box">
+        <canvas id="timing-chart"></canvas>
+      </div>
+      <div class="stats latest">
+        <div class="stat">
+          <span>Latest Total Request</span>
+          <strong id="last-total">– ms</strong>
+        </div>
+        <div class="stat">
+          <span>Latest OpenAI API</span>
+          <strong id="last-openai">– ms</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+Lambda Layer: openai-layer
+==========================
+
+Why a layer is needed
+---------------------
+The Lambda Python runtime ships with boto3 (used for DynamoDB) but NOT with the
+"openai" package. Without it the function fails with:
+    Runtime.ImportModuleError: Unable to import module 'lambda_function': No module named 'openai'
+
+How the layer was created
+-------------------------
+Lambda expects Python layer packages under a top-level "python/" folder inside the ZIP.
+The package contains compiled dependencies (pydantic_core, jiter), so it was built for the
+Lambda platform (Linux x86_64, CPython 3.13) rather than for the local machine:
+
+    mkdir -p layer/python
+    pip install openai \
+        --platform manylinux2014_x86_64 \
+        --only-binary=:all: \
+        --python-version 3.13 \
+        --implementation cp \
+        -t layer/python
+    cd layer
+    zip -r ../openai-layer.zip python
+
+Resulting ZIP: openai-layer.zip (included in this repository)
+Structure:
+    openai-layer.zip
+    └── python/
+        ├── openai/
+        ├── httpx2/, httpcore2/, h11/, anyio/, sniffio/, idna/
+        ├── pydantic/, pydantic_core/, annotated_types/, typing_inspection/
+        ├── jiter/, truststore/
+        └── typing_extensions.py
+
+Uploading and attaching
+-----------------------
+1. Lambda console -> Layers -> Create layer
+   - Name: openai-layer
+   - Upload: openai-layer.zip
+   - Compatible architectures: x86_64
+   - Compatible runtimes: Python 3.13
+2. Functions -> open-ai-chatbot -> Code tab -> Layers -> Add a layer
+   - Custom layers -> openai-layer -> version 1 -> Add
