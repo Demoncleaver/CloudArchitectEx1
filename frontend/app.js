@@ -1,4 +1,4 @@
-const FUNCTION_URL = "https://REPLACE_WITH_YOUR_FUNCTION_URL.lambda-url.us-east-1.on.aws/";
+const FUNCTION_URL = "https://v5tnfzvagdjwu5mj4k7mowxj6q0bplps.lambda-url.us-east-1.on.aws/";
 const USER_ID_KEY = "chatbot_user_id";
 
 const messagesEl = document.getElementById("messages");
